@@ -1,0 +1,71 @@
+.reflective-card {
+  --reflective-blur: 12px;
+  --reflective-color: #f6f3f7;
+  --reflective-metalness: .8;
+  --reflective-roughness: .4;
+  --reflective-overlay: rgba(255, 255, 255, .08);
+  --reflective-displacement: 20px;
+  --reflective-noise-scale: 1;
+  --reflective-specular: 1.2;
+  --reflective-saturation: 0;
+  --reflective-distortion: 0px;
+  background: #0c0b10;
+  border: 1px solid rgba(233, 225, 237, .28);
+  border-radius: 8px;
+  color: var(--reflective-color);
+  isolation: isolate;
+  min-height: 290px;
+  overflow: hidden;
+  position: relative;
+}
+
+.reflective-card__glass,
+.reflective-card__noise,
+.reflective-card__sheen {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.reflective-card__glass {
+  background:
+    radial-gradient(ellipse at 78% 14%, rgba(237, 60, 158, .23), transparent 46%),
+    linear-gradient(132deg, rgba(255, 255, 255, .14), transparent 35% 68%, rgba(185, 178, 205, .08)),
+    linear-gradient(150deg, #1d1a24, #0b0a0e 72%);
+  filter: saturate(calc(1 - var(--reflective-saturation)));
+  backdrop-filter: blur(var(--reflective-blur));
+  opacity: calc(.62 + var(--reflective-metalness) * .2);
+  transform: translateY(var(--reflective-distortion));
+}
+
+.reflective-card__noise {
+  background-image: repeating-linear-gradient(116deg, rgba(255, 255, 255, .055) 0 1px, transparent 1px 3px);
+  background-size: calc(18px * var(--reflective-noise-scale)) calc(18px * var(--reflective-noise-scale));
+  mix-blend-mode: screen;
+  opacity: calc(.04 + (1 - var(--reflective-roughness)) * .07);
+}
+
+.reflective-card__sheen {
+  background: linear-gradient(112deg, transparent 22%, var(--reflective-overlay) 48%, rgba(255, 255, 255, .015) 57%, transparent 72%);
+  inset: -35% -65%;
+  opacity: calc(.35 + var(--reflective-specular) * .18);
+  transform: translateX(calc(var(--reflective-displacement) * -1)) rotate(8deg);
+  transition: transform .65s cubic-bezier(.2, .7, .2, 1);
+}
+
+.reflective-card:hover .reflective-card__sheen {
+  transform: translateX(var(--reflective-displacement)) rotate(8deg);
+}
+
+.reflective-card__content {
+  min-height: inherit;
+  padding: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reflective-card__sheen {
+    transition: none;
+  }
+}

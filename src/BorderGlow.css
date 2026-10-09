@@ -1,0 +1,77 @@
+.border-glow-card {
+  --edge-proximity: 0;
+  --cursor-angle: 0deg;
+  background: var(--card-bg, #120f17);
+  border-radius: var(--border-radius, 8px);
+  color: #f4f1f5;
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
+}
+
+.border-glow-card--light {
+  color: #19151d;
+}
+
+.edge-light {
+  background: conic-gradient(
+    from var(--cursor-angle),
+    transparent 0deg,
+    var(--glow-color-10) calc(90deg - var(--cone-spread, 25deg)),
+    var(--glow-color) 90deg,
+    var(--glow-color-20) calc(90deg + var(--cone-spread, 25deg)),
+    transparent 180deg,
+    transparent 360deg
+  );
+  border-radius: inherit;
+  inset: -1px;
+  opacity: var(--edge-proximity);
+  padding: 1px;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity .18s ease-out;
+  z-index: 3;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.edge-light::before,
+.edge-light::after {
+  background: inherit;
+  border-radius: inherit;
+  content: '';
+  inset: -1px;
+  opacity: .7;
+  pointer-events: none;
+  position: absolute;
+}
+
+.edge-light::before {
+  filter: blur(5px);
+}
+
+.edge-light::after {
+  filter: blur(12px);
+  opacity: .38;
+}
+
+.border-glow-inner {
+  background: var(--card-bg, #120f17);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: inherit;
+  min-height: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.border-glow-card.sweep-active .edge-light {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge-light {
+    transition: none;
+  }
+}
