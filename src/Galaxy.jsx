@@ -46,7 +46,7 @@ function Galaxy({
       positions[index * 3] = (Math.random() * 2 - 1) * aspect;
       positions[index * 3 + 1] = Math.random() * 2 - 1;
       positions[index * 3 + 2] = 0;
-      sizes[index] = 0.65 + Math.random() * 1.8;
+      sizes[index] = 1.1 + Math.random() * 2.3;
       phases[index] = Math.random() * Math.PI * 2;
       speeds[index] = 0.35 + Math.random() * 1.3;
       hues[index] = Math.random() * 0.18 - 0.09;
@@ -123,8 +123,8 @@ function Galaxy({
 
           vec4 viewPosition = modelViewMatrix * vec4(point, 0.0, 1.0);
           gl_Position = projectionMatrix * viewPosition;
-          gl_PointSize = aSize * (1.0 + uResolution.y / 850.0) * (1.0 + uGlow * 0.35);
-          vAlpha = 0.56 + (0.44 * (0.5 + 0.5 * sin(uTime * aSpeed + aPhase)) * uTwinkle);
+          gl_PointSize = aSize * (1.0 + uResolution.y / 850.0) * (1.0 + uGlow * 0.5);
+          vAlpha = 0.72 + (0.28 * (0.5 + 0.5 * sin(uTime * aSpeed + aPhase)) * uTwinkle);
           vHue = uHue + aHue;
         }
       `,
@@ -147,7 +147,7 @@ function Galaxy({
           float alpha = max(core, halo) * vAlpha;
           vec3 tint = hueToRgb(vHue);
           vec3 color = mix(vec3(0.84, 0.91, 0.94), tint, uSaturation);
-          gl_FragColor = vec4(color * (0.82 + halo * 1.6), alpha);
+          gl_FragColor = vec4(color * (1.0 + halo * 2.2), alpha);
           if (alpha < 0.015) discard;
         }
       `,
